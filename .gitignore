@@ -25,6 +25,9 @@ accounting-agent/.env
 # Archives
 *.zip
 
+# PDFs
+*.pdf
+
 # IDE
 .idea/
 .vscode/
