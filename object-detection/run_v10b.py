@@ -6,12 +6,12 @@ Sandbox contract:
 Strategy - multi-scale + triple-model ensemble with WBF + soft-NMS:
   v3 (YOLOv8m 104MB) + v4 (YOLOv8l 176MB) + v6 (YOLO11m 78MB)
   Per-model inference: conf=0.01, iou=0.7, max_det=600 (matches cache params)
-  8 passes + 4 flip TTA passes = 12 total, WBF iou=0.50, weights tuned
-  Soft-NMS: sigma=0.85 (competition-proven), iou=0.35, score=1e-5, max_dets=500
+  Sweep v8 3-model: 8 passes, WBF iou=0.4989, weights=[1,2,1,2,3,4,1,2]
+  Soft-NMS: sigma=0.85, iou=0.303, score=6e-6, max_dets=450
   Category voting: quadratic score-weighted (score², V9 experiment E5)
 
   Adaptive time budget:
-    FULL:   v3@1280+1408+1536 + v4@1280+1536 + v6@1280+1408+1536 + flip(v3@1280,v4@1280,v6@1280+1408) -> WBF -> soft-NMS (12 passes)
+    FULL:   v3@1280+1408+1536 + v4@1280+1536 + v6@1280+1408+1536 -> WBF -> soft-NMS (8 passes)
     MEDIUM: v3@1280 + v4@1280+1536 + v6@1280+1536 -> WBF -> soft-NMS (5 passes)
     FAST:   v3@1280 only -> soft-NMS (1 pass)
 """
@@ -30,7 +30,7 @@ ONNX_WEIGHTS_2 = SCRIPT_DIR / "best2.onnx"    # Legacy secondary model
 FINETUNED_WEIGHTS = SCRIPT_DIR / "best.pt"     # Fallback
 PRETRAINED_WEIGHTS = SCRIPT_DIR / "yolov8m.pt"  # Detection-only fallback
 TOTAL_BUDGET_SEC = 270  # 300s sandbox timeout minus 30s safety margin
-MAX_DETS_PER_IMAGE = 500  # Allow more dets for dense shelf images
+MAX_DETS_PER_IMAGE = 450  # Cap detections per image (optimized: 450 > 400 for cls_mAP)
 
 
 def get_image_id(path: Path) -> int:
@@ -233,8 +233,8 @@ def _run_flip_tta(model, img_path, device, detection_only, imgsz=1280):
 
 # -- Single-image inference at three quality levels --
 def _infer_full(model_v3, model_v4, img_path, device, detection_only, model_v6=None):
-    """FULL: 8 regular + 4 flip TTA = 12 passes, WBF + soft-NMS.
-    v3@3scales + v4@2scales + v6@3scales + flip(v3@1280 + v4@1280 + v6@1280+1408)."""
+    """FULL: v3@1280+1408+1536 + v4@1280+1536 + v6@1280+1408+1536, WBF + soft-NMS (8 passes).
+    3-model sweep winner: local 0.9490."""
     from PIL import Image
     img = Image.open(img_path)
     img_w, img_h = img.size
@@ -276,28 +276,14 @@ def _infer_full(model_v3, model_v4, img_path, device, detection_only, model_v6=N
         all_passes.extend([_extract_dets(r6, detection_only), _extract_dets(r7, detection_only), _extract_dets(r8, detection_only)])
         all_weights.extend([4, 1, 2])
 
-    # Flip TTA: all three models on horizontally flipped image
-    flip_v3 = _run_flip_tta(model_v3, img_path, device, detection_only, imgsz=1280)
-    all_passes.append(flip_v3)
-    all_weights.append(1)
-    if model_v4:
-        flip_v4 = _run_flip_tta(model_v4, img_path, device, detection_only, imgsz=1280)
-        all_passes.append(flip_v4)
-        all_weights.append(2)
-    if model_v6:
-        flip_v6_1280 = _run_flip_tta(model_v6, img_path, device, detection_only, imgsz=1280)
-        flip_v6_1408 = _run_flip_tta(model_v6, img_path, device, detection_only, imgsz=1408)
-        all_passes.extend([flip_v6_1280, flip_v6_1408])
-        all_weights.extend([3, 1])
-
     # WBF fusion
     try:
-        fused = wbf_fuse(all_passes, img_w, img_h, iou_thresh=0.50, skip_box_thresh=0.02,
+        fused = wbf_fuse(all_passes, img_w, img_h, iou_thresh=0.505, skip_box_thresh=0.004705,
                          weights=all_weights)
-        return _soft_nms_class_agnostic(fused, iou_thresh=0.35, sigma=0.85, score_thresh=1e-5)
+        return _soft_nms_class_agnostic(fused, iou_thresh=0.303, sigma=0.85, score_thresh=6e-6)
     except Exception:
         all_dets = [d for p in all_passes for d in p]
-        return _soft_nms_class_agnostic(nms_per_image(all_dets, iou_thresh=0.5), iou_thresh=0.35, sigma=0.85, score_thresh=1e-5)
+        return _soft_nms_class_agnostic(nms_per_image(all_dets, iou_thresh=0.5), iou_thresh=0.45, score_thresh=0.001)
 
 
 def _infer_medium(model_v3, model_v4, img_path, device, detection_only, model_v6=None):
@@ -332,14 +318,14 @@ def _infer_medium(model_v3, model_v4, img_path, device, detection_only, model_v6
 
     try:
         fused = wbf_fuse(all_passes, img_w, img_h,
-                         iou_thresh=0.50, skip_box_thresh=0.02,
+                         iou_thresh=0.505, skip_box_thresh=0.004705,
                          weights=all_weights)
-        return _soft_nms_class_agnostic(fused, iou_thresh=0.35, sigma=0.85, score_thresh=1e-5)
+        return _soft_nms_class_agnostic(fused, iou_thresh=0.303, sigma=0.85, score_thresh=6e-6)
     except Exception:
         all_dets = [d for p in all_passes for d in p]
         return _soft_nms_class_agnostic(
             nms_per_image(all_dets, iou_thresh=0.5),
-            iou_thresh=0.35, sigma=0.85, score_thresh=1e-5)
+            iou_thresh=0.303, sigma=0.85, score_thresh=6e-6)
 
 
 def _infer_fast(model_v3, img_path, device, detection_only):
@@ -347,7 +333,7 @@ def _infer_fast(model_v3, img_path, device, detection_only):
     results = model_v3(str(img_path), device=device, verbose=False,
                        conf=0.01, iou=0.7, max_det=600, imgsz=1280, augment=False)
     dets = _extract_dets(results, detection_only)
-    return _soft_nms_class_agnostic(dets, iou_thresh=0.35, sigma=0.85, score_thresh=1e-5)
+    return _soft_nms_class_agnostic(dets, iou_thresh=0.303, sigma=0.85, score_thresh=6e-6)
 
 
 # -- Torch compatibility patch --
@@ -416,7 +402,7 @@ def predict_yolo(input_dir: Path, weights: Path, detection_only: bool = False) -
             time_per_image = remaining / images_left
             if time_per_image < 1.0:
                 mode = "FAST"
-            elif time_per_image < 3.5:
+            elif time_per_image < 2.5:
                 mode = "MEDIUM"
 
         t_img = time.time()

@@ -996,3 +996,107 @@ EXP 0 BASELINE: 69.14 � 13.12 (T=1.0, a=0.60, 5-feat)
 | 2026-03-22 11:48:34 | HGB T=1.2 | LOO=89.84+/-6.30 delta=-0.96 |
 | 2026-03-22 11:49:53 | HGB T=1.3 | LOO=88.88+/-7.02 delta=-1.92 |
 | 2026-03-22 11:51:11 | HGB T=1.5 | LOO=86.48+/-8.23 delta=-4.32 |
+| 2026-03-22 11:53:15 | HGB clip=1e-06 | LOO=90.80+/-5.12 delta=+0.00 **NEW BEST** |
+| 2026-03-22 11:54:56 | HGB clip=1e-05 | LOO=90.80+/-5.12 delta=-0.00 |
+| 2026-03-22 11:56:39 | HGB clip=0.0001 | LOO=90.79+/-5.11 delta=-0.01 |
+| 2026-03-22 11:58:18 | HGB clip=0.001 | LOO=90.62+/-5.11 delta=-0.18 |
+| 2026-03-22 11:59:50 | HGB clip=0.005 | LOO=89.83+/-5.06 delta=-0.97 |
+| 2026-03-22 12:01:19 | HGB clip=0.01 | LOO=88.81+/-5.02 delta=-1.99 |
+| 2026-03-22 12:02:29 | HGB depth=3 | LOO=90.68+/-5.15 delta=-0.12 |
+| 2026-03-22 12:03:58 | HGB depth=4 | LOO=90.79+/-5.11 delta=-0.01 |
+| 2026-03-22 12:05:38 | HGB depth=5 | LOO=90.82+/-5.10 delta=+0.02 **NEW BEST** |
+| 2026-03-22 12:07:32 | HGB depth=6 | LOO=90.83+/-5.09 delta=+0.01 **NEW BEST** |
+| 2026-03-22 12:09:11 | HGB depth=7 | LOO=90.82+/-5.08 delta=-0.00 |
+| 2026-03-22 12:10:01 | HGB iter=50 | LOO=90.08+/-5.47 delta=-0.75 |
+| 2026-03-22 12:11:18 | HGB iter=100 | LOO=90.79+/-5.11 delta=-0.04 |
+| 2026-03-22 12:12:44 | SIM-TRAIN pipeline start |
+| 2026-03-22 12:12:45 | SIM-TRAIN loaded 105 seeds from 21 rounds |
+| 2026-03-22 12:12:45 | SIM-TRAIN Step 0: HGB-only baseline (17 feat) |
+| 2026-03-22 12:13:07 | HGB iter=150 | LOO=90.82+/-5.07 delta=-0.01 |
+| 2026-03-22 12:16:35 | HGB iter=200 | LOO=90.82+/-5.05 delta=-0.01 |
+| 2026-03-22 12:18:04 | SIM-TRAIN HGB-only 17feat LOO=91.15+/-4.96 (319s) |
+| 2026-03-22 12:18:04 | SIM-TRAIN Step 1: Calibrating cell model on all GT |
+| 2026-03-22 12:18:04 | CALIBRATE cell model start |
+| 2026-03-22 12:18:04 | CALIBRATE cell model default score: 85.29 |
+| 2026-03-22 12:19:42 | HGB iter=300 | LOO=90.81+/-5.03 delta=-0.02 |
+| 2026-03-22 12:21:04 | HGB leaf=10 | LOO=90.79+/-5.11 delta=-0.04 |
+| 2026-03-22 12:22:34 | HGB leaf=20 | LOO=90.79+/-5.12 delta=-0.04 |
+| 2026-03-22 12:23:54 | HGB leaf=30 | LOO=90.78+/-5.12 delta=-0.04 |
+| 2026-03-22 12:25:17 | HGB leaf=50 | LOO=90.79+/-5.11 delta=-0.04 |
+| 2026-03-22 12:26:39 | HGB leaf=75 | LOO=90.78+/-5.12 delta=-0.04 |
+| 2026-03-22 12:27:59 | HGB leaf=100 | LOO=90.78+/-5.12 delta=-0.04 |
+| 2026-03-22 12:28:02 | FAST-SIM pipeline start |
+| 2026-03-22 12:28:03 | FAST-SIM loaded 105 seeds from 21 rounds |
+| 2026-03-22 12:28:03 | FAST-SIM Step 1: Calibrating cell model (L-BFGS-B × 10 restarts) |
+| 2026-03-22 12:28:03 | FAST-SIM Cell default: 85.29 |
+| 2026-03-22 12:29:28 | HGB leaf=150 | LOO=90.78+/-5.13 delta=-0.05 |
+| 2026-03-22 12:30:34 | FAST-SIM restart 0: 88.69 **NEW BEST** |
+| 2026-03-22 12:31:04 | HGB lr=0.01 | LOO=84.60+/-6.23 delta=-6.23 |
+| 2026-03-22 12:32:16 | FAST-SIM restart 1: 88.69 |
+| 2026-03-22 12:32:43 | HGB lr=0.03 | LOO=90.42+/-5.33 delta=-0.40 |
+| 2026-03-22 12:33:30 | FAST-SIM restart 2: 88.59 |
+| 2026-03-22 12:34:14 | HGB lr=0.05 | LOO=90.79+/-5.11 delta=-0.04 |
+| 2026-03-22 12:34:39 | FAST-SIM restart 3: 88.66 |
+| 2026-03-22 12:35:32 | HGB lr=0.08 | LOO=90.82+/-5.06 delta=-0.01 |
+| 2026-03-22 12:36:45 | HGB lr=0.1 | LOO=90.82+/-5.04 delta=-0.01 |
+| 2026-03-22 12:37:30 | FAST-SIM restart 4: 88.66 |
+| 2026-03-22 12:39:19 | QUICK-TEST ensemble start |
+| 2026-03-22 12:39:21 | QUICK-TEST 105 seeds, 21 rounds |
+| 2026-03-22 12:39:21 | QUICK-TEST using default cell params (no saved file) |
+| 2026-03-22 12:40:38 | FAST-SIM restart 5: 88.66 |
+| 2026-03-22 12:40:52 | QUICK-TEST calibrated cell model: 88.61 |
+| 2026-03-22 12:40:52 | QUICK-TEST cell model standalone: 88.73+/-5.12 |
+| 2026-03-22 12:41:24 | CALIBRATE cell model: 85.29 -> 88.70 (+3.41) in 1399s |
+| 2026-03-22 12:41:24 | CALIBRATE cell model full-data score: 88.80 +/- 5.18 |
+| 2026-03-22 12:41:24 | SIM-TRAIN Cell model calibrated: LOO=88.70 |
+| 2026-03-22 12:41:24 | SIM-TRAIN Saved cell params to data\cell_model_params.json |
+| 2026-03-22 12:41:24 | SIM-TRAIN Step 2: HGB with cell model features (23 feat) |
+| 2026-03-22 12:42:10 | QUICK-TEST HGB 17feat: 3fold=91.33+/-5.08 (78s) |
+| 2026-03-22 12:42:43 | FAST-SIM restart 6: 88.66 |
+| 2026-03-22 12:43:23 | QUICK-TEST HGB+cell 23feat: 3fold=91.34+/-5.08 (73s) |
+| 2026-03-22 12:44:22 | FAST-SIM restart 7: 88.67 |
+| 2026-03-22 12:44:39 | QUICK-TEST blend alpha=0.00: 3fold=91.34+/-5.08 |
+| 2026-03-22 12:44:39 | QUICK-TEST blend alpha=0.05: 3fold=91.31+/-5.09 |
+| 2026-03-22 12:44:39 | QUICK-TEST blend alpha=0.10: 3fold=91.25+/-5.08 |
+| 2026-03-22 12:44:39 | QUICK-TEST blend alpha=0.15: 3fold=91.19+/-5.08 |
+| 2026-03-22 12:44:39 | QUICK-TEST blend alpha=0.20: 3fold=91.11+/-5.08 |
+| 2026-03-22 12:44:39 | QUICK-TEST done |
+| 2026-03-22 12:45:45 | HGB ensemble 3-config | LOO=90.79+/-5.11 delta=-0.04 |
+| 2026-03-22 12:46:27 | FAST-SIM restart 8: 88.68 |
+| 2026-03-22 12:48:08 | HGB log-target | LOO=79.22+/-15.21 delta=-11.60 |
+| 2026-03-22 12:48:10 | SIM-TRAIN HGB+cellfeats 23feat LOO=91.15+/-4.96 (406s) |
+| 2026-03-22 12:48:10 | SIM-TRAIN Step 3: Testing ensemble blends |
+| 2026-03-22 12:48:30 | FAST-SIM restart 9: 88.66 |
+| 2026-03-22 12:48:30 | FAST-SIM Calibration done: 85.29 -> 88.69 (+3.40) in 1226s |
+| 2026-03-22 12:48:30 | FAST-SIM Cell model all-seed: 88.78+/-5.19 |
+| 2026-03-22 12:48:30 | FAST-SIM Step 2: HGB + cell features (23 feat) LOO CV |
+| 2026-03-22 12:53:35 | SIM-TRAIN blend alpha=0.05 LOO=91.12+/-4.97 delta=-0.03 (325s) |
+| 2026-03-22 12:59:00 | SIM-TRAIN blend alpha=0.10 LOO=91.07+/-4.97 delta=-0.08 (325s) |
+| 2026-03-22 12:59:32 | FAST-SIM HGB base 17feat:    LOO=91.15+/-5.10 |
+| 2026-03-22 12:59:32 | FAST-SIM HGB+cell 23feat:    LOO=91.15+/-5.10 delta=-0.00 |
+| 2026-03-22 12:59:32 | FAST-SIM HGB+cell+blend15%:  LOO=91.02+/-5.11 delta=-0.14 |
+| 2026-03-22 12:59:32 | FAST-SIM Step 3: Blend alpha sweep |
+| 2026-03-22 12:59:32 | FAST-SIM Step 3: Comparing cell model standalone vs HGB |
+| 2026-03-22 12:59:32 | FAST-SIM Cell model standalone: 88.78 |
+| 2026-03-22 12:59:32 | FAST-SIM HGB base (17feat):    91.15 |
+| 2026-03-22 12:59:32 | FAST-SIM HGB+cell (23feat):    91.15 |
+| 2026-03-22 12:59:32 | FAST-SIM ═══ SUMMARY ═══ |
+| 2026-03-22 12:59:32 | FAST-SIM Cell model calibrated: 85.29 -> 88.69 |
+| 2026-03-22 12:59:32 | FAST-SIM Cell model all-seed:   88.78 |
+| 2026-03-22 12:59:32 | FAST-SIM HGB base (17feat):     91.15 |
+| 2026-03-22 12:59:32 | FAST-SIM HGB+cell (23feat):     91.15 (delta=-0.00) |
+| 2026-03-22 12:59:32 | FAST-SIM HGB+cell+blend (15%):  91.02 (delta=-0.14) |
+| 2026-03-22 12:59:32 | FAST-SIM Best config: cell features hurt |
+| 2026-03-22 13:02:01 | SIM-TRAIN blend alpha=0.15 LOO=91.02+/-4.97 delta=-0.13 (181s) |
+| 2026-03-22 13:05:00 | SIM-TRAIN blend alpha=0.20 LOO=90.95+/-4.97 delta=-0.20 (179s) |
+| 2026-03-22 13:07:42 | SIM-TRAIN blend alpha=0.30 LOO=90.79+/-4.97 delta=-0.36 (162s) |
+| 2026-03-22 13:10:21 | SIM-TRAIN blend alpha=0.40 LOO=90.61+/-4.97 delta=-0.55 (158s) |
+| 2026-03-22 13:12:51 | SIM-TRAIN blend alpha=0.50 LOO=90.39+/-4.97 delta=-0.76 (150s) |
+| 2026-03-22 13:12:51 | SIM-TRAIN Step 4: Cell model standalone LOO |
+| 2026-03-22 13:12:51 | SIM-TRAIN Cell model standalone LOO=88.80+/-5.18 |
+| 2026-03-22 13:12:51 | SIM-TRAIN ═══ SUMMARY ═══ |
+| 2026-03-22 13:12:51 | SIM-TRAIN HGB-only (17feat): 91.15 |
+| 2026-03-22 13:12:51 | SIM-TRAIN HGB+cellfeats (23feat): 91.15 |
+| 2026-03-22 13:12:51 | SIM-TRAIN Best blend (alpha=0.00): 91.15 |
+| 2026-03-22 13:12:51 | SIM-TRAIN Cell model standalone: 88.80 |
+| 2026-03-22 13:12:51 | SIM-TRAIN Best config: cell_features=NO, blend_alpha=0.00 |
