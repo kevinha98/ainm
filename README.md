@@ -21,7 +21,7 @@
 
 **Oppgave:** Finn og klassifiser alle produkter på bilder av butikkhyller.  
 **Metrikk:** 0.7 × detection\_mAP\@0.5 + 0.3 × classification\_mAP\@0.5  
-**Beste score:** 0.8157
+**Beste score:** 0.9256 (3. plass)
 
 ### Hvordan det fungerer
 
