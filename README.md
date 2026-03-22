@@ -150,6 +150,7 @@ pip install -r requirements.txt
 | FastAPI + Uvicorn | Webserver for agenten |
 | Google Cloud Run | Hosting av agenten |
 | GCP VM (T4 GPU) | Trening av bildemodeller |
+| Claude Opus 4.6 | AI-assistent for kode, debugging og arkitektur |
 | Git LFS | Store modellfiler i git |
 
 ---
