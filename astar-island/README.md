@@ -1,48 +1,41 @@
 # Astar Island — Viking Civilisation Prediction
 
 ## Setup
+
 ```bash
 pip install -r requirements.txt
+export AINM_TOKEN="<your-token>"   # from browser cookies on app.ainm.no
 ```
 
 ## Configuration
-1. Sign in at `app.ainm.no` with Google
-2. Get your auth token (check browser dev tools → Network tab → look for `Authorization` header or cookie on API calls)
-3. Set in `config.py`:
-   - `AUTH_TOKEN` — your bearer token
-   - `TEAM_ID` — your team ID
-   - `ROUND_ID` — current round ID (visible on the Astar Island page)
+
+Set environment variable `AINM_TOKEN` with your auth token from browser dev tools (cookie `access_token` on api.ainm.no requests).
+
+Constants (grid size, classes, etc.) are in `src/settings.py`.
 
 ## Usage
+
 ```bash
-# 1. Run full pipeline (observe → analyze → predict → submit)
-python main.py
-
-# 2. Or step by step:
-python main.py observe      # Spend queries to observe viewports
-python main.py analyze      # Analyze observations, find patterns
-python main.py predict      # Generate probability tensors
-python main.py submit       # Submit predictions for all 5 seeds
-
-# 3. Visualize current state
-python main.py visualize
+# Full pipeline: observe → predict → submit
+python run.py
 ```
 
 ## Strategy
+
 - 50 queries shared across 5 seeds
 - Phase 1: 9 viewports per seed (45 queries) for ~full map coverage on each seed
 - Phase 2: 5 remaining queries target high-uncertainty regions
-- Prediction: spatial kernel smoothing + terrain adjacency model + empirical frequencies
+- Prediction: 6-model ensemble (Markov, Monte Carlo, HGB, MRF, settlement CA, observation-direct)
+- Calibration and sharpening post-processing
 
 ## File Structure
-```
-config.py          — Auth, team, round settings
-api_client.py      — REST API wrapper
-observer.py        — Viewport placement & observation strategy
-analyzer.py        — Pattern extraction from observations
-predictor.py       — Probability tensor generation
-submitter.py       — Prediction submission
-visualizer.py      — Map & prediction visualization
-main.py            — Orchestrator
+
+```text
+run.py             — Main entry point (observe → predict → submit)
+src/settings.py    — API config, grid constants, class mappings
+src/api.py         — REST API client
+src/observer.py    — Viewport placement & observation strategy
+src/models.py      — 6 prediction models + ensemble + calibration
+simulator/         — Cell-based simulation engine
 data/              — Cached observations & predictions
 ```
