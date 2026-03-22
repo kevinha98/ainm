@@ -50,8 +50,6 @@ Modellene ble trent på GCP VM med T4 GPU. Hovedmodellen (YOLOv8m v3) trente i 3
 ## Oppgave 2 — Regnskapsagent (Tripletex)
 
 **Oppgave:** Motta regnskapsoppgaver på 6 språk og utfør korrekte API-kall mot Tripletex.  
-**Metrikk:** Korrekthet × effektivitetsbonus (færre kall = høyere score, feil = trekk)  
-**Beste score:** ~72.5% gjennomsnitt, flere perfekte 13/13
 
 ### Idé
 
@@ -82,7 +80,6 @@ Den viktigste lærdommen var at **oppgavespesifikke instruksjoner i systemprompt
 
 **Oppgave:** Prediker sannsynligheten for hva som finnes i hver rute på et 40×40 kart (hav, skog, fjell, bosetting, havn, ruin) — med bare 50 observasjoner.  
 **Metrikk:** score = 100 × exp(−3 × vektet\_KL), høyentropiceller teller mest  
-**Beste score:** 80.07 (runde 5, rank 20/144)
 
 ### Konsept
 
