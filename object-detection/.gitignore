@@ -10,7 +10,6 @@ submissions/
 # Model weights
 *.pt
 *.pth
-*.onnx
 *.safetensors
 
 # Python
