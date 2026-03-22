@@ -1,8 +1,7 @@
 # NM i AI 2026 — Konkurranserepo
 
-**Lag:** Kevin Ha  
+**Lag:** Proptonomy.ai
 **Konkurranse:** [NM i AI 2026](https://app.ainm.no) (19.–22. mars 2026), arrangert av Astar Technologies  
-**Tre oppgaver. Fire dager. Ett leaderboard.**
 
 ---
 
