@@ -1,0 +1,19 @@
+# Training data (large, download from competition site)
+data/
+
+# Training outputs
+runs/
+
+# Built submissions
+submissions/
+
+# Model weights
+*.pt
+*.pth
+*.onnx
+*.safetensors
+
+# Python
+__pycache__/
+*.pyc
+.venv/

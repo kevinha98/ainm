@@ -1,0 +1,79 @@
+# Python
+__pycache__/
+*.pyc
+*.pyo
+.venv/
+venv/
+*.egg-info/
+
+# Env files with secrets
+.env
+accounting-agent/.env
+
+# Large model files
+*.onnx
+*.pt
+*.pkl
+
+# Logs and temporary files
+*.log
+*.txt
+*.json
+!requirements.txt
+!package.json
+
+# Archives
+*.zip
+
+# IDE
+.idea/
+.vscode/
+
+# OS
+Thumbs.db
+.DS_Store
+
+# Swagger API docs (large)
+accounting-agent/Tripletex API 2.0.html
+accounting-agent/Tripletex API 2.0_files/
+
+# ===== Files with hardcoded secrets (API keys, tokens) =====
+# Deploy script with Gemini API key
+accounting-agent/deploy.sh
+
+# Test files with Tripletex tokens
+accounting-agent/test_admin.py
+accounting-agent/test_admin_explore.py
+accounting-agent/test_agent.py
+accounting-agent/test_all_tasks.py
+accounting-agent/test_bank.py
+accounting-agent/test_connectivity.py
+accounting-agent/test_e2e.py
+accounting-agent/test_explore.py
+accounting-agent/test_invoice_flow.py
+accounting-agent/test_local.py
+accounting-agent/test_orderline.py
+accounting-agent/test_travel.py
+accounting-agent/test_usertype.py
+accounting-agent/test_usertype2.py
+
+# astar-island scripts with competition API tokens
+astar-island/analyze_final.py
+astar-island/check_final.py
+astar-island/check_lb.py
+astar-island/check_now.py
+astar-island/fetch_all_gt.py
+astar-island/find_us.py
+astar-island/fix_gt_format.py
+astar-island/monitor.py
+astar-island/postmortem.py
+astar-island/postmortem2.py
+astar-island/recalibrate_r15.py
+astar-island/resubmit_r6.py
+astar-island/resubmit_r6_temp.py
+astar-island/resubmit_r6_v2.py
+astar-island/resubmit_r6_v3.py
+astar-island/src/settings.py
+
+# object-detection with tokens
+object-detection/detection_viewer.html

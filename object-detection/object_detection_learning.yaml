@@ -1,0 +1,84 @@
+
+# Object Detection Best-in-Class Learning Config
+version: 1.0
+task: object_detection
+
+dataset:
+  format: COCO  # images + annotations in COCO JSON
+  train_images: data/images/train
+  val_images: data/images/val
+  annotations_train: data/annotations/instances_train.json
+  annotations_val: data/annotations/instances_val.json
+  classes: ["person", "car", "bicycle", "dog", "cat", "bus", "truck", "traffic light", "fire hydrant", "stop sign"]
+  num_classes: 10
+  image_size: 1280  # train-time max edge; multi-scale enabled below
+  normalization: { mean: [0.485, 0.456, 0.406], std: [0.229, 0.224, 0.225] }
+  split: { train: 0.9, val: 0.1 }
+
+augmentations:
+  # Strong but safe augmentations for SOTA models
+  mosaic: { enabled: true, prob: 0.8, size: 1280 }
+  mixup: { enabled: true, prob: 0.15, alpha: 0.2 }
+  copy_paste: { enabled: true, prob: 0.2 }
+  random_perspective: { prob: 0.8, degrees: 0.0, translate: 0.2, scale: [0.5, 1.5], shear: 0.1 }
+  hsv: { prob: 0.8, hgain: 0.015, sgain: 0.7, vgain: 0.4 }
+  color_jitter: { prob: 0.5, brightness: 0.2, contrast: 0.2, saturation: 0.2 }
+  blur: { prob: 0.05, kernel: 3 }
+  gaussian_noise: { prob: 0.05, std: 0.01 }
+  flip: { horizontal: {prob: 0.5}, vertical: {prob: 0.0} }
+  multi_scale: { enabled: true, min_size: 896, max_size: 1536, step: 32 }
+  letterbox: { enabled: true, padding: 32 }
+
+training:
+  # Primary: YOLOv8/YOLOv9-style settings (widely available)
+  model: yolov8m  # alternatives: yolov8l, yolov9-c
+  anchors: auto  # run auto-anchor on first epoch
+  epochs: 300
+  batch_size: 16
+  optimizer: adamw
+  lr: 0.003
+  weight_decay: 0.0005
+  momentum: 0.9  # if using SGD
+  scheduler: cosine
+  warmup_epochs: 3
+  warmup_lr: 0.0002
+  ema: { enabled: true, decay: 0.9999 }
+  gradient_clip_norm: 10.0
+  label_smoothing: 0.0
+  loss:
+    box: ciou  # alternatives: giou, siou
+    cls_pos_weight: 1.0
+    bbox_gain: 7.5
+    cls_gain: 0.5
+    dfl_gain: 1.5  # Distribution Focal Loss gain for anchor-free heads
+  regularization:
+    dropout: 0.0
+    mosaic_after_epoch: 250  # reduce strong aug near the end
+
+  # Optional SOTA alternative (MMDetection/Detectron2 style)
+  alt_model:
+    name: retinanet_swin_t
+    frozen_stages: 1
+    img_norm_cfg: { mean: [123.675, 116.28, 103.53], std: [58.395, 57.12, 57.375], to_rgb: true }
+    rpn: { nms_thresh: 0.7 }
+
+evaluation:
+  metric: mAP  # COCO mAP@[.50:.95]
+  iou_thresholds: [0.50, 0.55, 0.60, 0.65, 0.70, 0.75, 0.80, 0.85, 0.90, 0.95]
+  max_det_per_image: 300
+  eval_interval_epochs: 5
+
+inference:
+  conf_threshold: 0.25
+  iou_nms: 0.7
+  max_det: 300
+  tta: { enabled: true, scales: [0.5, 1.0, 1.5], flips: ["none", "h"] }
+
+reproducibility:
+  seed: 42
+  deterministic: false
+
+notes:
+  - "Ensure training JSONs follow COCO: images, annotations, categories."
+  - "Use stratified split to maintain class balance across train/val."
+  - "Calibrate confidence (e.g., via Platt scaling) for downstream ranking if needed."

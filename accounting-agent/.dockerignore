@@ -1,0 +1,9 @@
+__pycache__
+*.pyc
+.env
+.git
+.venv
+*.md
+test_*.py
+Tripletex API 2.0.html
+Tripletex API 2.0_files/
